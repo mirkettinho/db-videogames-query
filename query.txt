@@ -143,3 +143,32 @@ ON a.id = av.award_id
 ORDER BY software_houses;
 
 6. Selezionare categorie e classificazioni PEGI dei videogiochi che hanno ricevuto recensioni da 4 e 5 stelle, mostrandole una sola volta (3363)
+SELECT v.id AS id_videogames, v.name AS  name, c.id AS id_category, c.name AS category_name, pl.id AS id_pegi, pl.name AS PEGI_name
+FROM videogames v 
+JOIN category_videogame cv 
+ON cv.videogame_id = v.id 
+JOIN categories c 
+ON c.id = cv.category_id 
+JOIN pegi_label_videogame plv 
+ON plv.videogame_id = v.id 
+JOIN pegi_labels pl 
+ON pl.id = plv.pegi_label_id 
+JOIN reviews r 
+ON r.videogame_id = v.id 
+WHERE rating >= 4
+GROUP BY v.id, c.id, pl.id;
+
+7. Selezionare quali giochi erano presenti nei tornei nei quali hanno partecipato i giocatori il cui nome inizia per 'S' (474)
+SELECT DISTINCT  v.id AS id_videogmaes, v.name AS name_videogames
+FROM videogames v 
+JOIN tournament_videogame tv 
+ON tv.videogame_id  = v.id 
+JOIN tournaments t 
+ON t.id = tv.tournament_id 
+JOIN player_tournament pt 
+ON pt.tournament_id = t.id 
+JOIN players p 
+ON p.id = pt.player_id 
+WHERE p.name LIKE "S%";
+
+
